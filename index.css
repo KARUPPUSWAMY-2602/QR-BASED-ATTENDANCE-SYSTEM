@@ -1,0 +1,62 @@
+export type Role = 'admin' | 'faculty' | 'student';
+
+export interface Profile {
+  id: string;
+  full_name: string;
+  role: Role;
+  photo_url: string | null;
+  phone: string | null;
+  created_at: string;
+}
+
+export interface Student {
+  id: string;
+  reg_no: string;
+  course: string;
+  section: string;
+  semester: number;
+  department: string;
+  profiles?: Profile;
+}
+
+export interface Faculty {
+  id: string;
+  employee_id: string;
+  department: string;
+  designation: string;
+  profiles?: Profile;
+}
+
+export interface Subject {
+  id: string;
+  subject_code: string;
+  subject_name: string;
+  faculty_id: string | null;
+  section: string;
+  semester: number;
+  department: string;
+  created_at: string;
+  faculty?: Faculty & { profiles?: Profile };
+}
+
+export interface QRSession {
+  id: string;
+  subject_id: string;
+  faculty_id: string;
+  qr_token: string;
+  generated_at: string;
+  expires_at: string;
+  is_active: boolean;
+  subjects?: Subject;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  session_id: string;
+  student_id: string;
+  marked_at: string;
+  status: 'present' | 'absent' | 'leave';
+  profiles?: Profile;
+  students?: Student;
+  qr_sessions?: QRSession & { subjects?: Subject };
+}
